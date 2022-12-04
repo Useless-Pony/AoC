@@ -1,0 +1,4 @@
+syntax: glob
+
+##AoC uses input files I name them as *.input
+*.input
