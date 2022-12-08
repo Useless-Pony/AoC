@@ -12,22 +12,21 @@ move 1 from 1 to 2"""
 with open("part1.input") as i:
         input=i.read()[:-1]
 
-#slight fuckery
 lines = [line for line in input.splitlines()]
 
-#simple find the bottom fuckery
+#find the bottom of the crate stacks
 bottom=0
 for index,line in enumerate(lines):
 	if line[1] in "1":
 		bottom = index
 		break
 
-#shitty fuckery
-#turn stacks into a list of list and then turn it sideways with the "bottom" at the left
+#turn stacks into a list of list and then "turn it sideways" with the "bottom" at the left
+#doesn't really make a difference that the bottom is now at the left, brain just likes thinking about it like this
 stacks =[[]] + [list(stack[::-1]) for stack in zip(*[[crate for crate in line[1::4]] for line in lines[:bottom]])]
 instructions = [line.split(" ") for line in lines[bottom+2:]]
 
-
+#removes the whitespace in the stacks.. this does make it easier to deal with
 for x,stack in enumerate(stacks):
 	for y,crate in enumerate(stack):
 		if crate ==" ":
