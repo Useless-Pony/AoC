@@ -31,28 +31,28 @@ with open("part1.input") as i:
 for input in inputs:
 	dirs={"/":0}
 	files={}
-	pwd="/"
+	pwd=["/"]
 	for line in input.splitlines():
 		strm = line.split(" ")
 		if line[0] =="$":
 			#cmd
 			if strm[1] == "cd":
-				if strm[2] == "/": pwd = "/"
-				elif strm[2] == "..": pwd = pwd[:pwd[:-1].rfind("/")] + "/"
-				else: pwd = pwd + strm[2] + "/"
+				if strm[2] == "/": pwd = ["/"]
+				elif strm[2] == "..": pwd.pop()
+				else: pwd.append(pwd[-1] + strm[2] + "/")
 			elif strm[1] == "ls": pass
 		else:
 			#data
 			if strm[0] == "dir":
-				dirs.setdefault(pwd + strm[1] + "/")
+				dirs.setdefault(pwd[-1] + strm[1] + "/")
 			else:
-				files.setdefault(pwd + strm[1], int(strm[0]))
+				files[pwd[-1] + strm[1]] = int(strm[0])
 	for dir in dirs:
-		total=0
+		total = 0
 		for file in files:
 			if dir in file:
 				total += files[file]
-		dirs[dir]=total
+		dirs[dir] = total
 
 	print("##part1")
 
@@ -64,6 +64,6 @@ for input in inputs:
 	max_usable = total_sp - update
 	excess = dirs["/"] - max_usable
 	print(excess)
-	print(min([size if size > excess else int("9"*9*9) for size in dirs.values()]))
+	print(min([size if size > excess else int("9"*4300) for size in dirs.values()]))
 
 print("done")
