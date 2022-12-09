@@ -43,5 +43,36 @@ for input in inputs:
 	print(width *4 -4 + visible)
 
 	print("##part2")
+	scores = [[0 for i in range(width)] for I in range(width)]
 
+	for x, row in enumerate(forest):
+		if (x == 0) or (x == len(row) -1): continue
+		for y, tree in enumerate(row):
+			if (y == 0) or (y == len(row) -1): continue
+
+			down = 0
+			up = 0
+			right = 0
+			left = 0
+
+			for T in f_forest[y][:x][::-1]:
+				down += 1
+				if T >= tree: break
+
+			for T in f_forest[y][x+1:]:
+				up += 1
+				if T >= tree: break
+
+			for T in forest[x][:y][::-1]:
+				left += 1
+				if T >= tree: break
+
+			for T in forest[x][y+1:]:
+				right += 1
+				if T >= tree: break
+
+			scores[x][y] = left*right*up*down
+		#	scores[x][y] = [down,up,left,right]
+	print(*scores,sep="\n")
+	print(max(*[max(*row) for row in scores]))
 print("done")
