@@ -153,13 +153,18 @@ with open("part1.input") as i:
 
 
 for input in inputs:
+	## list of X values over Cycles
+	# solved off by 1 bug by adding an extra 1 at the start.
 	X = [1,1]
 	for line in input.splitlines():
+		#all instructions leav the buffer alon for one cycle
 		X.append(X[-1])
+		#addx instruction then also changes X on a second cycle
 		if line[0] == "a":
 			X.append(X[-1] + int(line.split()[-1]))
 	print("##part1")
 	print(sum([X[ind] * ind for ind in range(20,len(X),40)]))
+
 	print("##part2")
 	for cycle,value in enumerate(X):
 		print("#" if value <= (cycle%40) <= (value+2) else ".", end="" if cycle % 40 else "\n")
